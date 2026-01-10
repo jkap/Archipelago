@@ -1,18 +1,19 @@
-from typing import NamedTuple, Optional
+from typing import NamedTuple
 
 from BaseClasses import Item, ItemClassification
 
 
 class SongData(NamedTuple):
     """Special data container for filtering"""
-    code: Optional[int]
+
+    code: int | None
     id: int
     version: int
 
     normal: float
     hard: float
     expert: float
-    inferno: Optional[float]
+    inferno: float | None
 
 
 class WaccaSongItem(Item):
@@ -25,5 +26,5 @@ class WaccaSongItem(Item):
 class WaccaFixedItem(Item):
     game: str = "WACCA"
 
-    def __init__(self, name: str, classification: ItemClassification, code: Optional[int], player: int) -> None:
+    def __init__(self, name: str, classification: ItemClassification, code: int | None, player: int) -> None:
         super().__init__(name, classification, code, player)

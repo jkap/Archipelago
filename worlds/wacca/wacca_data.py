@@ -1,8 +1,6 @@
-from typing import Dict
+from .items import SongData
 
-from .Items import SongData
-
-SONG_DATA: Dict[str, SongData] = {
+SONG_DATA: dict[str, SongData] = {
     # code, ID, version, normal, hard, expert, inferno
     "Rainbow Dream": SongData(3, 3, 100, 3, 8.7, 11.4, None),
     "Knight Rider": SongData(4, 4, 100, 6, 10.9, 13.3, None),
@@ -11,7 +9,7 @@ SONG_DATA: Dict[str, SongData] = {
     "Senbonzakura": SongData(7, 7, 100, 2, 7.9, 10.4, None),
     "Sugar Song and Bitter Step": SongData(8, 8, 100, 2, 7, 10.4, None),
     "Peace Sign": SongData(9, 9, 100, 2, 6.9, 9.8, None),
-    "Singin'☆Shine！": SongData(10, 10, 100, 1, 5.3, 9.6, None),
+    "Singin'☆Shine！": SongData(10, 10, 100, 1, 5.3, 9.6, None),  # noqa: RUF001
     "MEMORiZE": SongData(20, 20, 100, 3, 8.1, 10, None),
     "illanai-assorted": SongData(21, 21, 100, 4, 8.9, 12.9, None),
     "Fatima": SongData(23, 23, 100, 2, 6.8, 9.5, None),
@@ -77,7 +75,7 @@ SONG_DATA: Dict[str, SongData] = {
     "Galaxy Friends": SongData(1084, 1084, 100, 4, 8.9, 12.7, 13.9),
     "Bad Apple!! feat. nomico": SongData(1001, 1001, 100, 1, 5.5, 9.3, None),
     "Night of Nights": SongData(1002, 1002, 100, 3, 9, 12, None),
-    "WARNING×WARNING×WARNING": SongData(1119, 1119, 100, 3, 7.7, 11.5, None),
+    "WARNING×WARNING×WARNING": SongData(1119, 1119, 100, 3, 7.7, 11.5, None),  # noqa: RUF001
     "Raise Your Heart!!": SongData(1124, 1124, 100, 3, 7.4, 10.6, None),
     "SHINY DAYS": SongData(1125, 1125, 100, 1, 5.2, 9, None),
     "Shuuketsu no Panapana": SongData(1052, 1052, 100, 2, 6.3, 10.9, None),
@@ -185,7 +183,7 @@ SONG_DATA: Dict[str, SongData] = {
     "Gabriel Dropkick": SongData(2002, 2002, 200, 3, 6.9, 11, None),
     "This game": SongData(2003, 2003, 200, 2, 7.6, 10.7, None),
     "Positive☆Dance Time": SongData(2004, 2004, 200, 3, 8.9, 11.6, None),
-    "Gimme×Gimme feat. Hatsune Miku/Kagamine Rin": SongData(2005, 2005, 200, 2, 8.1, 12, None),
+    "Gimme×Gimme feat. Hatsune Miku/Kagamine Rin": SongData(2005, 2005, 200, 2, 8.1, 12, None),  # noqa: RUF001
     "39 Music!": SongData(2006, 2006, 200, 2, 7.4, 10.9, None),
     "Yukemuri TamaOnSen II": SongData(2007, 2007, 200, 3, 7.5, 12, None),
     "Akeboshi Rocket": SongData(2008, 2008, 200, 2, 7.5, 11.7, None),
@@ -200,9 +198,9 @@ SONG_DATA: Dict[str, SongData] = {
     "ALiVE": SongData(2019, 2019, 200, 3, 7.8, 11, None),
     "Kirameki Rider ☆": SongData(2023, 2023, 200, 2, 7, 11.5, None),
     "Kiratto Start (USAO Remix)": SongData(2027, 2027, 200, 4, 8.2, 12.5, None),
-    "Make it！ (DJ Genki Remix)": SongData(2028, 2028, 200, 3, 7.8, 11.6, None),
+    "Make it！ (DJ Genki Remix)": SongData(2028, 2028, 200, 3, 7.8, 11.6, None),  # noqa: RUF001
     "Heart♥Iro♥Tridream": SongData(2029, 2029, 200, 1, 6, 10.1, None),
-    "Make it！": SongData(2030, 2030, 200, 1, 5.1, 9.4, None),
+    "Make it！": SongData(2030, 2030, 200, 1, 5.1, 9.4, None),  # noqa: RUF001
     "Kiratto Start": SongData(2031, 2031, 200, 2, 7.4, 10.2, None),
     "New Wave": SongData(2065, 2065, 200, 2, 6.1, 9.3, None),
     "Night Sky Patrol of Tomorrow": SongData(2032, 2032, 200, 3, 7.6, 11.9, None),
@@ -236,14 +234,14 @@ SONG_DATA: Dict[str, SongData] = {
     "THERAPY": SongData(2060, 2060, 200, 4, 9.1, 12.7, None),
     "Hageshi Kono Yoru -Psylent Crazy Night-": SongData(2062, 2062, 200, 4, 8.8, 13.7, None),
     "Shakariki Fight Boom-Boom": SongData(2075, 2075, 200, 3, 6.7, 11.7, None),
-    "How is the Progress Going!?": SongData(1239, 1239, 200, 3, 7.3, 12.8, None),
+    "How is the Progress Going!?": SongData(1239, 1239, 200, 3, 7.3, 12.8, None),  # noqa: F601
     "World is Mine": SongData(2076, 2076, 200, 3, 8.3, 11.6, None),
     "Our 16bit Wars": SongData(2077, 2077, 200, 4, 9.1, 13.4, None),
     "Kakuzetsu ≡ Thanatos": SongData(2078, 2078, 200, 4, 8.5, 13.5, None),
     "From Zero feat. Rika": SongData(2071, 2071, 200, 3, 7.7, 11.8, None),
     "PRESS START!": SongData(2072, 2072, 200, 4, 8.7, 12.7, None),
     "TWISTSTEP": SongData(2073, 2073, 200, 3, 8.8, 12.7, None),
-    "Future Cαndy": SongData(2074, 2074, 200, 3, 9.1, 12.7, None),
+    "Future Cαndy": SongData(2074, 2074, 200, 3, 9.1, 12.7, None),  # noqa: RUF001
     "Neko Musume": SongData(2046, 2046, 200, 6, 10.6, 13.7, None),
     "Freefall": SongData(2053, 2053, 200, 4, 8.8, 12.7, 13.8),
     "Liberate": SongData(2054, 2054, 200, 4, 9.5, 13.1, None),

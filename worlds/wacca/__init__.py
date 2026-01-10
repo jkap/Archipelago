@@ -1,17 +1,20 @@
 from math import floor
-from typing import List, ClassVar, Type
+from types import MappingProxyType
+from typing import ClassVar, cast
 
 from BaseClasses import Item, ItemClassification, Region
-from Options import PerGameCommonOptions, OptionError
-from worlds.AutoWorld import World, WebWorld
-from .Items import WaccaFixedItem, WaccaSongItem
-from .Locations import WaccaLocation
-from .Options import WaccaOptions, wacca_option_groups
-from .WaccaCollection import WaccaCollections
+from Options import OptionError, PerGameCommonOptions
+from worlds.AutoWorld import WebWorld, World
+
+from .items import WaccaFixedItem, WaccaSongItem
+from .locations import WaccaLocation
+from .options import WaccaOptions, wacca_option_groups
+from .wacca_collection import WaccaCollections
 
 
 class WaccaWebWorld(WebWorld):
     """wip"""
+
     theme = "partyTime"
 
     option_groups = wacca_option_groups
@@ -22,7 +25,7 @@ class WaccaWorld(World):
 
     # world options
     game = "WACCA"
-    options_dataclass: ClassVar[Type[PerGameCommonOptions]] = WaccaOptions
+    options_dataclass: ClassVar[type[PerGameCommonOptions]] = WaccaOptions
     options: WaccaOptions
 
     topology_present = False
@@ -31,16 +34,14 @@ class WaccaWorld(World):
     # necessary data
     wacca_collection = WaccaCollections()
 
-    item_name_to_id = {name: code for name, code in wacca_collection.item_names_to_id.items()}
-    location_name_to_id = {name: code for name, code in wacca_collection.location_names_to_id.items()}
-    item_name_groups = {
-        "Songs": {name for name in wacca_collection.song_items.keys()}
-    }
+    item_name_to_id = MappingProxyType(dict(wacca_collection.item_names_to_id.items()))
+    location_name_to_id = MappingProxyType(dict(wacca_collection.location_names_to_id.items()))
+    item_name_groups = MappingProxyType({"Songs": set(wacca_collection.song_items.keys())})
 
     # working data
     victory_song_name: str = ""
-    starting_songs: List[str]
-    included_songs: List[str]
+    starting_songs: list[str]
+    included_songs: list[str]
     needed_token_count: int
     location_count: int
 
@@ -57,9 +58,9 @@ class WaccaWorld(World):
         while True:
             # this should only need to run once
 
-            available_song_keys = self.wacca_collection.get_songs_with_settings(versions.value, difficulty_min.value,
-                                                                                difficulty_max.value,
-                                                                                max_includes_plus == True)
+            available_song_keys = self.wacca_collection.get_songs_with_settings(
+                versions.value, difficulty_min.value, difficulty_max.value, cast(bool, max_includes_plus)
+            )
 
             available_song_keys = self.handle_plando(available_song_keys)
 
@@ -73,7 +74,7 @@ class WaccaWorld(World):
             if difficulty_min <= 1 and difficulty_max >= 15:
                 raise OptionError("failed to find enough songs, even with max difficulty")
 
-            elif difficulty_min <= 1:
+            if difficulty_min <= 1:
                 difficulty_max += 1
             else:
                 difficulty_min -= 1
@@ -83,7 +84,7 @@ class WaccaWorld(World):
         for song in self.starting_songs:
             self.multiworld.push_precollected(self.create_item(song))
 
-    def handle_plando(self, available_song_keys: List[str]) -> List[str]:
+    def handle_plando(self, available_song_keys: list[str]) -> list[str]:
         song_items = self.wacca_collection.song_items
 
         start_items = self.options.start_inventory.value.keys()
@@ -93,7 +94,7 @@ class WaccaWorld(World):
 
         return [s for s in available_song_keys if s not in start_items]
 
-    def create_song_pool(self, available_song_keys: List[str]):
+    def create_song_pool(self, available_song_keys: list[str]):
         starting_song_count = self.options.starting_song_count.value
         additional_song_count = self.options.additional_song_count.value
 
@@ -141,8 +142,12 @@ class WaccaWorld(World):
 
     def create_item(self, name: str) -> Item:
         if name == self.wacca_collection.PROGRESSION_NAME:
-            return WaccaFixedItem(name, ItemClassification.progression_deprioritized_skip_balancing,
-                                  self.wacca_collection.PROGRESSION_CODE, self.player)
+            return WaccaFixedItem(
+                name,
+                ItemClassification.progression_deprioritized_skip_balancing,
+                self.wacca_collection.PROGRESSION_CODE,
+                self.player,
+            )
 
         song = self.wacca_collection.song_items[name]
         return WaccaSongItem(name, self.player, song)
@@ -201,19 +206,22 @@ class WaccaWorld(World):
         # adds 2 item locations per song to the menu region
         for i in range(0, len(all_selected_locations)):
             name = all_selected_locations[i]
-            loc1 = WaccaLocation(self.player, name + "-0", self.wacca_collection.song_locations[name + "-0"],
-                                 menu_region)
+            loc1 = WaccaLocation(
+                self.player, name + "-0", self.wacca_collection.song_locations[name + "-0"], menu_region
+            )
             loc1.access_rule = lambda state, place=name: state.has(place, self.player)
             menu_region.locations.append(loc1)
 
-            loc2 = WaccaLocation(self.player, name + "-1", self.wacca_collection.song_locations[name + "-1"],
-                                 menu_region)
+            loc2 = WaccaLocation(
+                self.player, name + "-1", self.wacca_collection.song_locations[name + "-1"], menu_region
+            )
             loc2.access_rule = lambda state, place=name: state.has(place, self.player)
             menu_region.locations.append(loc2)
 
     def set_rules(self) -> None:
-        self.multiworld.completion_condition[self.player] = lambda state: \
-            state.has(self.wacca_collection.PROGRESSION_NAME, self.player, self.get_progression_win_count())
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(
+            self.wacca_collection.PROGRESSION_NAME, self.player, self.get_progression_win_count()
+        )
 
     def get_progression_count(self) -> int:
         multiplier = self.options.progression_count_percentage.value / 100.0
